@@ -856,8 +856,12 @@ namespace dxvk {
     InitReturnPtr(ppGeometryShader);
     D3D11CommonShader module;
 
-    if (!m_dxvkDevice->features().extTransformFeedback.transformFeedback)
-      return DXGI_ERROR_INVALID_CALL;
+    if (!m_dxvkDevice->features().extTransformFeedback.transformFeedback) {
+      Logger::err(
+        "D3D11: CreateGeometryShaderWithStreamOutput:"
+        "\n  Transform feedback not supported by device");
+      return S_OK;
+    }
 
     // Zero-init some counterss so that we can increment
     // them while walking over the stream output entries
@@ -1944,7 +1948,7 @@ namespace dxvk {
     enabled.core.features.dualSrcBlend                            = VK_TRUE;
     enabled.core.features.fillModeNonSolid                        = VK_TRUE;
     enabled.core.features.fullDrawIndexUint32                     = VK_TRUE;
-    enabled.core.features.geometryShader                          = VK_TRUE;
+    enabled.core.features.geometryShader                          = supported.core.features.geometryShader;
     enabled.core.features.imageCubeArray                          = VK_TRUE;
     enabled.core.features.independentBlend                        = VK_TRUE;
     enabled.core.features.multiViewport                           = VK_TRUE;
@@ -1953,7 +1957,7 @@ namespace dxvk {
     enabled.core.features.sampleRateShading                       = VK_TRUE;
     enabled.core.features.samplerAnisotropy                       = supported.core.features.samplerAnisotropy;
     enabled.core.features.shaderClipDistance                      = VK_TRUE;
-    enabled.core.features.shaderCullDistance                      = VK_TRUE;
+    enabled.core.features.shaderCullDistance                      = supported.core.features.shaderCullDistance;
     enabled.core.features.shaderImageGatherExtended               = VK_TRUE;
     enabled.core.features.textureCompressionBC                    = VK_TRUE;
 
@@ -1964,8 +1968,8 @@ namespace dxvk {
     enabled.extCustomBorderColor.customBorderColors               = supported.extCustomBorderColor.customBorderColorWithoutFormat;
     enabled.extCustomBorderColor.customBorderColorWithoutFormat   = supported.extCustomBorderColor.customBorderColorWithoutFormat;
 
-    enabled.extTransformFeedback.transformFeedback                = VK_TRUE;
-    enabled.extTransformFeedback.geometryStreams                  = VK_TRUE;
+    enabled.extTransformFeedback.transformFeedback                = supported.extTransformFeedback.transformFeedback;
+    enabled.extTransformFeedback.geometryStreams                  = supported.extTransformFeedback.geometryStreams;
 
     enabled.extVertexAttributeDivisor.vertexAttributeInstanceRateDivisor      = supported.extVertexAttributeDivisor.vertexAttributeInstanceRateDivisor;
     enabled.extVertexAttributeDivisor.vertexAttributeInstanceRateZeroDivisor  = supported.extVertexAttributeDivisor.vertexAttributeInstanceRateZeroDivisor;
