@@ -317,7 +317,7 @@ namespace dxvk {
           devExtensionList.size(),
           devExtensionList.data(),
           &extensionsEnabled))
-      throw DxvkError("DxvkAdapter: Failed to create device");
+      throw DxvkError("DxvkAdapter: Failed to create device 1");
     
     // Enable additional extensions if necessary
     extensionsEnabled.merge(m_extraExtensions);
@@ -536,7 +536,7 @@ namespace dxvk {
     }
 
     if (vr != VK_SUCCESS)
-      throw DxvkError("DxvkAdapter: Failed to create device");
+      throw DxvkError("DxvkAdapter: Failed to create device 2");
     
     Rc<vk::DeviceFn> vkd = new vk::DeviceFn(m_vki, true, device);
 
@@ -556,7 +556,7 @@ namespace dxvk {
     auto devExtensionList = getExtensionList(devExtensions);
 
     if (!m_deviceExtensions.enableExtensions(devExtensionList.size(), devExtensionList.data(), nullptr))
-      throw DxvkError("DxvkAdapter: Failed to create device");
+      throw DxvkError("DxvkAdapter: Failed to create device 3");
     
     DxvkNameList extensionNameList(args.extensionCount, args.extensionNames);
 
