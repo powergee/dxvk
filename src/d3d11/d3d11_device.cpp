@@ -860,7 +860,7 @@ namespace dxvk {
       Logger::err(
         "D3D11: CreateGeometryShaderWithStreamOutput:"
         "\n  Transform feedback not supported by device");
-      return S_OK;
+      return DXGI_ERROR_INVALID_CALL;
     }
 
     // Zero-init some counterss so that we can increment
@@ -2010,6 +2010,15 @@ namespace dxvk {
     enabled.extDepthBiasControl.depthBiasControl                                = supported.extDepthBiasControl.depthBiasControl;
     enabled.extDepthBiasControl.depthBiasExact                                  = supported.extDepthBiasControl.depthBiasExact;
     enabled.extDepthBiasControl.leastRepresentableValueForceUnormRepresentation = supported.extDepthBiasControl.leastRepresentableValueForceUnormRepresentation;
+
+    enabled.extRobustness2.robustBufferAccess2                    = supported.extRobustness2.robustBufferAccess2;
+    enabled.extRobustness2.robustImageAccess2                     = supported.extRobustness2.robustImageAccess2;
+    enabled.extRobustness2.nullDescriptor                         = supported.extRobustness2.nullDescriptor;
+
+    Logger::info(str::format("Explicitly enabled extRobustness2: ",
+      supported.extRobustness2.robustBufferAccess2,
+      supported.extRobustness2.robustImageAccess2,
+      supported.extRobustness2.nullDescriptor));
 
     return enabled;
   }
