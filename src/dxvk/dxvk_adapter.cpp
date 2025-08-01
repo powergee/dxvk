@@ -675,6 +675,7 @@ namespace dxvk {
 
         default:
           // Ignore any unknown feature structs
+          Logger::warn(str::format("Ignoring unknown feature structs: ", f->sType));
           break;
       }
     }
